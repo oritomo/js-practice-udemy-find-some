@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>find/every/someの練習</title>
+</head>
+
+<body>
+  <script>
+    'use strict';
+    {
+      //-----------------------find-------------------------
+      const users = [
+        { name: 'まもる' },
+        { name: 'えりか' },
+        { name: 'たけし' },
+        { name: 'ひとみ' },
+      ]
+      const name = users.find(user => {
+        return user.name === 'ひとみ';
+      });
+      console.log(name) //{name: 'ひとみ'}
+      //-------------------------find//idが同じ投稿を表示------------------------------------
+      const posts = [
+        { id: 1, title: '古い投稿' },
+        { id: 2, title: '新しい投稿' },
+      ];
+      const comment = { postId: 2, content: 'いいね！' };
+      function postForComment(posts, comment) {
+        return posts.find(post => {
+          return post.id === comment.postId;
+        });
+      }
+      console.log(postForComment(posts, comment)); //{id: 2, title: '新しい投稿'}
+      //----------------------------findWhere関数------------------
+      function findWhere(array, criteria) {
+        return array.find(elm => {
+          console.log(criteria) //{size: 4}
+          let property = Object.keys(criteria)[0];//keyの取得
+          console.log(property) //size
+          console.log(elm) //{id: 1, height: 10, size: 4}
+          console.log(elm[property]) //4
+          console.log(criteria[property]) //4
+
+          return elm[property] === criteria[property];
+          //elm[property]には4が入ってる
+          //criteria[property]にも4が入ってる
+        });
+      }
+      const ladders = [
+        { id: 1, height: 10, size: 4 },
+        { id: 3, height: 25, size: 10 },
+      ];
+      console.log(findWhere(ladders, { size: 4 }));//Object.keysでsizeが取得される
+      //{id: 1, height: 10, size: 4}
+
+      //-------------------------every---------------------------
+      //すべてtrueじゃないとtrueは返ってこない
+      //ひとつでもfalseがあるとfalseが返ってくる
+      const computers = [
+        { name: 'Apple', ram: 24 },
+        { name: 'Compaq', ram: 4 },
+        { name: 'Acer', ram: 32 },
+      ];
+
+      //ramがすべて１６以上でなければfalseが返ってくる
+      const result = computers.every(computer => {
+        return computer.ram >= 16;
+      });
+      console.log(result); //false
+
+
+      const names = [
+        'けん',
+        'さとし',
+        'しょういち',
+      ];
+
+      const result3 = names.every(name => {
+        return name.length >= 3;
+      });
+      console.log(result3); //false
+
+
+
+      //--------------------------some---------------------------
+      //ひとつでもtrueがあるとtrueが返ってくる
+      //全部falseならfalseが返ってくる
+
+      const result2 = computers.some(computer => {
+        return computer.ram >= 16;
+      });
+      console.log(result2);
+
+      const result4 = names.some(name => {
+        return name.length >= 3;
+      });
+      console.log(result4);
+
+
+
+      //-----------------every/someのuse case-------------------
+      function Field(value){
+        this.value = value;
+      }
+
+      Field.prototype.validate = function(){
+        return this.value.length > 0;
+      }
+
+      var username = new Field('my_username');
+      var password = new Field('my_password');
+      var birthday = new Field('2010/10/10');
+
+      var fields = [
+        username,
+        password,
+        birthday,
+      ];
+
+      const formIsValid  = fields.every(field=>{
+        return field.validate();
+      });
+      console.log(formIsValid); //true
+      if(formIsValid){
+        //サーバーにリクエストを投げる
+      }else{
+        //エラーを表示する
+      }
+
+
+
+
+
+
+
+
+
+    }
+
+  </script>
+</body>
+
+</html>
